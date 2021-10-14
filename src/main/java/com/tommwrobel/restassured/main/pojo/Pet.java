@@ -1,28 +1,14 @@
 package com.tommwrobel.restassured.main.pojo;
 
 import java.util.List;
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
 
 public class Pet {
 
-    @SerializedName("id")
-    @Expose
     private Integer id;
-    @SerializedName("category")
-    @Expose
     private Category category;
-    @SerializedName("name")
-    @Expose
     private String name;
-    @SerializedName("photoUrls")
-    @Expose
     private List<String> photoUrls = null;
-    @SerializedName("tags")
-    @Expose
     private List<Tag> tags = null;
-    @SerializedName("status")
-    @Expose
     private String status;
 
     public Integer getId() {

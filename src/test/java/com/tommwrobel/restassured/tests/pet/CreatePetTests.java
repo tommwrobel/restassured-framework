@@ -1,29 +1,16 @@
 package com.tommwrobel.restassured.tests.pet;
+
 import com.tommwrobel.restassured.main.pojo.Category;
 import com.tommwrobel.restassured.main.pojo.Pet;
 import com.tommwrobel.restassured.main.pojo.Tag;
-import com.tommwrobel.restassured.main.properties.EnvironmentConfig;
-import io.restassured.RestAssured;
-import io.restassured.filter.log.RequestLoggingFilter;
-import io.restassured.filter.log.ResponseLoggingFilter;
-import org.aeonbits.owner.ConfigFactory;
-import org.testng.annotations.BeforeMethod;
+import com.tommwrobel.restassured.tests.testbases.SuiteTestBase;
 import org.testng.annotations.Test;
 
-import static java.util.Collections.singletonList;
 import static io.restassured.RestAssured.given;
+import static java.util.Collections.singletonList;
 import static org.testng.Assert.assertEquals;
 
-public class CreatePetTests {
-
-    @BeforeMethod
-    public void setuoConfiguration() {
-        gitEnvironmentConfig environmentConfig = ConfigFactory.create(EnvironmentConfig.class);
-
-        RestAssured.baseURI = environmentConfig.baseUri();
-        RestAssured.basePath = environmentConfig.basePath();
-        RestAssured.filters(new RequestLoggingFilter(), new ResponseLoggingFilter());
-    }
+public class CreatePetTests extends SuiteTestBase {
 
     @Test
     public void givenPetWhenPostPetThenPetIsCreatedTest() {
@@ -46,9 +33,9 @@ public class CreatePetTests {
         Pet actualPet = given()
                 .body(pet)
                 .contentType("application/json")
-        .when()
+            .when()
                 .post("pet")
-        .then()
+            .then()
                 .statusCode(200)
                 .extract().as(Pet.class);
 

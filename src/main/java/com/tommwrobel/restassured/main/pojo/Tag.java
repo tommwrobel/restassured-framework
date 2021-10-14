@@ -5,11 +5,7 @@ import com.google.gson.annotations.SerializedName;
 
 public class Tag {
 
-    @SerializedName("id")
-    @Expose
     private Integer id;
-    @SerializedName("name")
-    @Expose
     private String name;
 
     public Integer getId() {
