@@ -27,6 +27,6 @@ public class CreateUserTests extends SuiteTestBase {
 
         assertEquals(apiResponse.getCode(), Integer.valueOf(200), "Code");
         assertEquals(apiResponse.getType(), "unknown", "Type");
-        assertEquals(apiResponse.getMessage(), "445", "Message");
+        assertEquals(apiResponse.getMessage(), user.getId().toString(), "Message");
     }
 }
