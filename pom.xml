@@ -16,6 +16,7 @@
         <gson.version>2.8.6</gson.version>
         <maven.surefire.version>2.22.2</maven.surefire.version>
         <owner.version>1.0.12</owner.version>
+        <java.faker.version>1.0.2</java.faker.version>
     </properties>
 
     <dependencies>
@@ -38,6 +39,11 @@
             <groupId>org.aeonbits.owner</groupId>
             <artifactId>owner</artifactId>
             <version>${owner.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.javafaker</groupId>
+            <artifactId>javafaker</artifactId>
+            <version>${java.faker.version}</version>
         </dependency>
     </dependencies>
 
