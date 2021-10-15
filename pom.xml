@@ -17,6 +17,7 @@
         <maven.surefire.version>2.22.2</maven.surefire.version>
         <owner.version>1.0.12</owner.version>
         <java.faker.version>1.0.2</java.faker.version>
+        <assertj.version>3.16.1</assertj.version>
     </properties>
 
     <dependencies>
@@ -44,6 +45,11 @@
             <groupId>com.github.javafaker</groupId>
             <artifactId>javafaker</artifactId>
             <version>${java.faker.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <version>${assertj.version}</version>
         </dependency>
     </dependencies>
 
