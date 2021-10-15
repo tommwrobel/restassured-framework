@@ -2,8 +2,10 @@ package com.tommwrobel.restassured.tests.pet;
 
 import com.tommwrobel.restassured.main.pojo.ApiResponse;
 import com.tommwrobel.restassured.main.pojo.Pet;
+import com.tommwrobel.restassured.main.request.specification.RequestConfigurationBuilder;
 import com.tommwrobel.restassured.main.test.data.PetTestDataGenerator;
-import com.tommwrobel.restassured.tests.testbases.SuiteTestBase;
+import com.tommwrobel.restassured.tests.testbase.SuiteTestBase;
+import org.apache.http.HttpStatus;
 import org.assertj.core.api.Assertions;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.Test;
@@ -21,8 +23,8 @@ public class CreatePetTests extends SuiteTestBase {
         pet = PetTestDataGenerator.generatePet();
 
         Pet actualPet = given()
+                .spec(RequestConfigurationBuilder.getDefaultRequestSpecification())
                 .body(pet)
-                .contentType("application/json")
             .when()
                 .post("pet")
             .then()
@@ -38,17 +40,18 @@ public class CreatePetTests extends SuiteTestBase {
     @AfterTest
     public void cleanUpAfterTest() {
         ApiResponse actualApiResponse = given()
-            .contentType("application/json")
+                .spec(RequestConfigurationBuilder.getDefaultRequestSpecification())
             .when()
-            .delete("pet/{petId}", pet.getId())
+                .delete("pet/{petId}", pet.getId())
             .then()
-            .statusCode(200)
-            .extract().as(ApiResponse.class);
+                .statusCode(HttpStatus.SC_OK)
+                .extract().as(ApiResponse.class);
 
-        ApiResponse expectedApiResponse = new ApiResponse();
-        expectedApiResponse.setCode(200);
-        expectedApiResponse.setType("unknown");
-        expectedApiResponse.setMessage(pet.getId().toString());
+        ApiResponse expectedApiResponse = ApiResponse.builder()
+                .code(HttpStatus.SC_OK)
+                .type("unknown")
+                .message(pet.getId().toString())
+                .build();
 
         Assertions.assertThat(actualApiResponse)
             .describedAs("API Response from system was not as expected")

@@ -7,5 +7,4 @@ public class TestDataGenerator {
     public static Faker faker() {
         return Faker.instance();
     }
-
 }

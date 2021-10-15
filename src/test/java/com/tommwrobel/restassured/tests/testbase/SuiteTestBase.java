@@ -1,4 +1,4 @@
-package com.tommwrobel.restassured.tests.testbases;
+package com.tommwrobel.restassured.tests.testbase;
 
 import com.tommwrobel.restassured.main.properties.EnvironmentConfig;
 import io.restassured.RestAssured;

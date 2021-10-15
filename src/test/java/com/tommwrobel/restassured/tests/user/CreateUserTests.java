@@ -2,14 +2,15 @@ package com.tommwrobel.restassured.tests.user;
 
 import com.tommwrobel.restassured.main.pojo.ApiResponse;
 import com.tommwrobel.restassured.main.pojo.User;
+import com.tommwrobel.restassured.main.request.specification.RequestConfigurationBuilder;
 import com.tommwrobel.restassured.main.test.data.UserTestDataGenerator;
-import com.tommwrobel.restassured.tests.testbases.SuiteTestBase;
+import com.tommwrobel.restassured.tests.testbase.SuiteTestBase;
+import org.apache.http.HttpStatus;
 import org.assertj.core.api.Assertions;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.Test;
 
 import static io.restassured.RestAssured.given;
-import static org.testng.Assert.assertEquals;
 
 public class CreateUserTests extends SuiteTestBase {
 
@@ -29,10 +30,11 @@ public class CreateUserTests extends SuiteTestBase {
             .statusCode(200)
             .extract().as(ApiResponse.class);
 
-        ApiResponse expectedApiResponse = new ApiResponse();
-        expectedApiResponse.setCode(200);
-        expectedApiResponse.setType("unknown");
-        expectedApiResponse.setMessage(user.getId().toString());
+        ApiResponse expectedApiResponse = ApiResponse.builder()
+                .code(HttpStatus.SC_OK)
+                .type("unknown")
+                .message(user.getId().toString())
+                .build();
 
         Assertions.assertThat(actualApiResponse)
                 .describedAs("Send User was different than received by API")
@@ -43,17 +45,18 @@ public class CreateUserTests extends SuiteTestBase {
     @AfterTest
     public void cleanUpAfterTest() {
         ApiResponse actualApiResponse = given()
-                .contentType("application/json")
+                .spec(RequestConfigurationBuilder.getDefaultRequestSpecification())
             .when()
                 .delete("user/{username}", user.getUsername())
             .then()
-                .statusCode(200)
+                .statusCode(HttpStatus.SC_OK)
                 .extract().as(ApiResponse.class);
 
-        ApiResponse expectedApiResponse = new ApiResponse();
-        expectedApiResponse.setCode(200);
-        expectedApiResponse.setType("unknown");
-        expectedApiResponse.setMessage(user.getUsername());
+        ApiResponse expectedApiResponse = ApiResponse.builder()
+                .code(HttpStatus.SC_OK)
+                .type("unknown")
+                .message(user.getUsername())
+                .build();
 
         Assertions.assertThat(actualApiResponse)
                 .describedAs("API Response from system was not as expected")

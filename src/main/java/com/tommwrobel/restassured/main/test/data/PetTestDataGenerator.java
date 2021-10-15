@@ -14,36 +14,34 @@ import static java.util.Collections.singletonList;
 public class PetTestDataGenerator extends TestDataGenerator {
 
     public static Pet generatePet() {
-        Pet pet = new Pet();
-        pet.setId(faker().number().numberBetween(1, 9999));
-        pet.setName(faker().funnyName().name());
-        pet.setPhotoUrls(singletonList(faker().internet().url()));
-        pet.setCategory(getRandomPetsCategory());
-        pet.setStatus(getRandomPetsStatus());
-        pet.setTags(singletonList(getRandomPetsTag()));
-        return pet;
+        return Pet.builder()
+                .id(faker().number().numberBetween(1, 9999))
+                .name(faker().funnyName().name())
+                .photoUrls(singletonList(faker().internet().url()))
+                .category(getRandomPetsCategory())
+                .status(getRandomPetsStatus())
+                .tags(singletonList(getRandomPetsTag()))
+                .build();
     }
 
     private static Category getRandomPetsCategory() {
         int pick = new Random().nextInt(PetsCategory.values().length);
         PetsCategory petsCategory = PetsCategory.values()[pick];
 
-        Category category = new Category();
-        category.setId(petsCategory.getId());
-        category.setName(petsCategory.getName());
-
-        return category;
+        return Category.builder()
+                .id(petsCategory.getId())
+                .name(petsCategory.getName())
+                .build();
     }
 
     private static Tag getRandomPetsTag() {
         int pick = new Random().nextInt(PetsTag.values().length);
         PetsTag petsTag = PetsTag.values()[pick];
 
-        Tag tag = new Tag();
-        tag.setId(petsTag.getId());
-        tag.setName(petsTag.getName());
-
-        return tag;
+        return Tag.builder()
+                .id(petsTag.getId())
+                .name(petsTag.getName())
+                .build();
     }
 
     private static String getRandomPetsStatus() {
