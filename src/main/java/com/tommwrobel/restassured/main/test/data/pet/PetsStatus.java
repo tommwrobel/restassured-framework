@@ -1,7 +1,5 @@
 package com.tommwrobel.restassured.main.test.data.pet;
 
-import java.util.Random;
-
 public enum PetsStatus {
 
     AVAILABLE("available"),
@@ -12,11 +10,6 @@ public enum PetsStatus {
 
     PetsStatus(String name) {
         this.name = name;
-    }
-
-    public PetsStatus randomPetsStatus() {
-        int pick = new Random().nextInt(PetsStatus.values().length);
-        return PetsStatus.values()[pick];
     }
 
     public String getName() {

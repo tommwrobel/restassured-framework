@@ -1,7 +1,5 @@
 package com.tommwrobel.restassured.main.test.data.pet;
 
-import java.util.Random;
-
 public enum PetsCategory {
 
     DOG(1, "dog"),
@@ -14,11 +12,6 @@ public enum PetsCategory {
     PetsCategory(int id, String name) {
         this.id = id;
         this.name = name;
-    }
-
-    public PetsCategory randomPetsCategory() {
-        int pick = new Random().nextInt(PetsCategory.values().length);
-        return PetsCategory.values()[pick];
     }
 
     public String getName() {

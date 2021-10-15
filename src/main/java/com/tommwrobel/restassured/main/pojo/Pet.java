@@ -1,14 +1,13 @@
 package com.tommwrobel.restassured.main.pojo;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 
-@Getter
-@Setter
+@Data
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Pet {
 
     private Integer id;
