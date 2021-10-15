@@ -4,6 +4,7 @@ import com.tommwrobel.restassured.main.pojo.ApiResponse;
 import com.tommwrobel.restassured.main.pojo.Pet;
 import com.tommwrobel.restassured.main.test.data.PetTestDataGenerator;
 import com.tommwrobel.restassured.tests.testbases.SuiteTestBase;
+import org.assertj.core.api.Assertions;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.Test;
 
@@ -28,22 +29,30 @@ public class CreatePetTests extends SuiteTestBase {
                 .statusCode(200)
                 .extract().as(Pet.class);
 
-        assertEquals(actualPet.getId(), pet.getId(), "Pet id");
-        assertEquals(actualPet.getName(), pet.getName(), "Pet name");
+        Assertions.assertThat(actualPet)
+            .describedAs("Send Pet was different than received by API")
+            .usingRecursiveComparison()
+            .isEqualTo(pet);
     }
 
     @AfterTest
     public void cleanUpAfterTest() {
-        ApiResponse apiResponse = given()
-                .contentType("application/json")
-                .when()
-                .delete("pet/{petId}", pet.getId())
-                .then()
-                .statusCode(200)
-                .extract().as(ApiResponse.class);
+        ApiResponse actualApiResponse = given()
+            .contentType("application/json")
+            .when()
+            .delete("pet/{petId}", pet.getId())
+            .then()
+            .statusCode(200)
+            .extract().as(ApiResponse.class);
 
-        assertEquals(apiResponse.getCode(), Integer.valueOf(200), "Code");
-        assertEquals(apiResponse.getType(), "unknown", "Type");
-        assertEquals(apiResponse.getMessage(), pet.getId().toString(), "Message");
+        ApiResponse expectedApiResponse = new ApiResponse();
+        expectedApiResponse.setCode(200);
+        expectedApiResponse.setType("unknown");
+        expectedApiResponse.setMessage(pet.getId().toString());
+
+        Assertions.assertThat(actualApiResponse)
+            .describedAs("API Response from system was not as expected")
+            .usingRecursiveComparison()
+            .isEqualTo(expectedApiResponse);
     }
 }

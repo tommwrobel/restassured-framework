@@ -4,6 +4,7 @@ import com.tommwrobel.restassured.main.pojo.ApiResponse;
 import com.tommwrobel.restassured.main.pojo.User;
 import com.tommwrobel.restassured.main.test.data.UserTestDataGenerator;
 import com.tommwrobel.restassured.tests.testbases.SuiteTestBase;
+import org.assertj.core.api.Assertions;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.Test;
 
@@ -19,7 +20,7 @@ public class CreateUserTests extends SuiteTestBase {
 
         user = UserTestDataGenerator.generateUser();
 
-        ApiResponse apiResponse = given()
+        ApiResponse actualApiResponse = given()
             .contentType("application/json")
             .body(user)
         .when()
@@ -28,14 +29,20 @@ public class CreateUserTests extends SuiteTestBase {
             .statusCode(200)
             .extract().as(ApiResponse.class);
 
-        assertEquals(apiResponse.getCode(), Integer.valueOf(200), "Code");
-        assertEquals(apiResponse.getType(), "unknown", "Type");
-        assertEquals(apiResponse.getMessage(), user.getId().toString(), "Message");
+        ApiResponse expectedApiResponse = new ApiResponse();
+        expectedApiResponse.setCode(200);
+        expectedApiResponse.setType("unknown");
+        expectedApiResponse.setMessage(user.getId().toString());
+
+        Assertions.assertThat(actualApiResponse)
+                .describedAs("Send User was different than received by API")
+                .usingRecursiveComparison()
+                .isEqualTo(expectedApiResponse);
     }
 
     @AfterTest
     public void cleanUpAfterTest() {
-        ApiResponse apiResponse = given()
+        ApiResponse actualApiResponse = given()
                 .contentType("application/json")
             .when()
                 .delete("user/{username}", user.getUsername())
@@ -43,8 +50,14 @@ public class CreateUserTests extends SuiteTestBase {
                 .statusCode(200)
                 .extract().as(ApiResponse.class);
 
-        assertEquals(apiResponse.getCode(), Integer.valueOf(200), "Code");
-        assertEquals(apiResponse.getType(), "unknown", "Type");
-        assertEquals(apiResponse.getMessage(), user.getUsername(), "Message");
+        ApiResponse expectedApiResponse = new ApiResponse();
+        expectedApiResponse.setCode(200);
+        expectedApiResponse.setType("unknown");
+        expectedApiResponse.setMessage(user.getUsername());
+
+        Assertions.assertThat(actualApiResponse)
+                .describedAs("API Response from system was not as expected")
+                .usingRecursiveComparison()
+                .isEqualTo(expectedApiResponse);
     }
 }

@@ -16,7 +16,7 @@ public class PetTestDataGenerator extends TestDataGenerator {
     public static Pet generatePet() {
         Pet pet = new Pet();
         pet.setId(faker().number().numberBetween(1, 9999));
-        pet.setName(faker().funnyName().toString());
+        pet.setName(faker().funnyName().name());
         pet.setPhotoUrls(singletonList(faker().internet().url()));
         pet.setCategory(getRandomPetsCategory());
         pet.setStatus(getRandomPetsStatus());
