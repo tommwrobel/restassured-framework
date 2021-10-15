@@ -3,7 +3,7 @@ package com.tommwrobel.restassured.main.test.data;
 import com.tommwrobel.restassured.main.pojo.User;
 
 public class UserTestDataGenerator extends TestDataGenerator {
-    public User generateUser() {
+    public static User generateUser() {
         User user = new User();
         user.setId(faker().number().numberBetween(1, 9999));
         user.setUsername(faker().name().username());

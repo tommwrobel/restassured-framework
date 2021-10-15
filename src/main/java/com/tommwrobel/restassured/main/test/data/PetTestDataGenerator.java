@@ -13,7 +13,7 @@ import static java.util.Collections.singletonList;
 
 public class PetTestDataGenerator extends TestDataGenerator {
 
-    public Pet generatePet() {
+    public static Pet generatePet() {
         Pet pet = new Pet();
         pet.setId(faker().number().numberBetween(1, 9999));
         pet.setName(faker().funnyName().toString());
@@ -24,7 +24,7 @@ public class PetTestDataGenerator extends TestDataGenerator {
         return pet;
     }
 
-    private Category getRandomPetsCategory() {
+    private static Category getRandomPetsCategory() {
         int pick = new Random().nextInt(PetsCategory.values().length);
         PetsCategory petsCategory = PetsCategory.values()[pick];
 
@@ -35,7 +35,7 @@ public class PetTestDataGenerator extends TestDataGenerator {
         return category;
     }
 
-    private Tag getRandomPetsTag() {
+    private static Tag getRandomPetsTag() {
         int pick = new Random().nextInt(PetsTag.values().length);
         PetsTag petsTag = PetsTag.values()[pick];
 
@@ -46,7 +46,7 @@ public class PetTestDataGenerator extends TestDataGenerator {
         return tag;
     }
 
-    private String getRandomPetsStatus() {
+    private static String getRandomPetsStatus() {
         int pick = new Random().nextInt(PetsStatus.values().length);
         PetsStatus petsStatus = PetsStatus.values()[pick];
 

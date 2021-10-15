@@ -17,8 +17,7 @@ public class CreatePetTests extends SuiteTestBase {
     @Test
     public void givenPetWhenPostPetThenPetIsCreatedTest() {
 
-        PetTestDataGenerator petTestDataGenerator = new PetTestDataGenerator();
-        pet = petTestDataGenerator.generatePet();
+        pet = PetTestDataGenerator.generatePet();
 
         Pet actualPet = given()
                 .body(pet)

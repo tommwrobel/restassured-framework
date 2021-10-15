@@ -16,8 +16,8 @@ public class CreateUserTests extends SuiteTestBase {
 
     @Test
     public void givenUserWhenPostUserThenUserIsCreatedTest() {
-        UserTestDataGenerator userTestDataGenerator = new UserTestDataGenerator();
-        user = userTestDataGenerator.generateUser();
+
+        user = UserTestDataGenerator.generateUser();
 
         ApiResponse apiResponse = given()
             .contentType("application/json")
