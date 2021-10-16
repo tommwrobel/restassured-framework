@@ -24,6 +24,7 @@
         <allure.maven.version>2.10.0</allure.maven.version>
         <slf4j.version>1.7.30</slf4j.version>
         <aspectjweaver.version>1.9.5</aspectjweaver.version>
+        <maven.compiler.plugin.version>3.8.1</maven.compiler.plugin.version>
     </properties>
 
     <dependencies>
@@ -105,7 +106,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
+                <version>${maven.compiler.plugin.version}</version>
                 <configuration>
                     <encoding>UTF-8</encoding>
                     <source>11</source>

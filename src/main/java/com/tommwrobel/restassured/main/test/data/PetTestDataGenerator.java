@@ -24,6 +24,11 @@ public class PetTestDataGenerator extends TestDataGenerator {
                 .build();
     }
 
+    public static int generateNonExistingPetId() {
+        return faker().number()
+                .numberBetween(10000, 99999);
+    }
+
     private static Category getRandomPetsCategory() {
         int pick = new Random().nextInt(PetsCategory.values().length);
         PetsCategory petsCategory = PetsCategory.values()[pick];
