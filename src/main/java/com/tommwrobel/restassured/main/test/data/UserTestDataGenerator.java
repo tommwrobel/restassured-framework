@@ -16,4 +16,8 @@ public class UserTestDataGenerator extends TestDataGenerator {
                 .userStatus(1)
                 .build();
     }
+
+    public static String generateNonExistingUsername() {
+        return faker().name().username() + "nonExisting";
+    }
 }
