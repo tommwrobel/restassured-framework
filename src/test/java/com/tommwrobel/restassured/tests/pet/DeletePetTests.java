@@ -2,29 +2,27 @@ package com.tommwrobel.restassured.tests.pet;
 
 import com.tommwrobel.restassured.main.pojo.ApiResponse;
 import com.tommwrobel.restassured.main.pojo.Pet;
-import com.tommwrobel.restassured.main.request.specification.RequestConfigurationBuilder;
+import com.tommwrobel.restassured.main.rop.pet.CreatePetEndpoint;
+import com.tommwrobel.restassured.main.rop.pet.DeletePetEndpoint;
 import com.tommwrobel.restassured.main.test.data.PetTestDataGenerator;
 import com.tommwrobel.restassured.tests.testbase.SuiteTestBase;
 import org.apache.http.HttpStatus;
 import org.assertj.core.api.Assertions;
 import org.testng.annotations.Test;
 
-import static io.restassured.RestAssured.given;
-
 public class DeletePetTests extends SuiteTestBase {
+
+    DeletePetEndpoint deletePetEndpoint = new DeletePetEndpoint();
 
     @Test
     public void givenExistingPetIdWhenDeletePetThenPetIsDeleted() {
 
         Pet pet = createPetToDelete();
 
-        ApiResponse actualApiResponse = given()
-                    .spec(RequestConfigurationBuilder.getDefaultRequestSpecification())
-                .when()
-                    .delete("pet/{petId}", pet.getId())
-                .then()
-                    .statusCode(HttpStatus.SC_OK)
-                    .extract().as(ApiResponse.class);
+        ApiResponse actualApiResponse = deletePetEndpoint.setPetId(pet.getId())
+                .sendRequest()
+                .assertRequestSuccess()
+                .getResponseModel();
 
         ApiResponse expectedApiResponse = ApiResponse.builder()
                 .code(HttpStatus.SC_OK)
@@ -41,12 +39,9 @@ public class DeletePetTests extends SuiteTestBase {
     @Test
     public void  givenNonExistingPetWhenDeletingPetThenPetNotFoundTest() {
 
-        given()
-            .spec(RequestConfigurationBuilder.getDefaultRequestSpecification())
-        .when()
-            .delete("pet/{petId}", PetTestDataGenerator.generateNonExistingPetId())
-        .then()
-            .statusCode(HttpStatus.SC_NOT_FOUND);
+        deletePetEndpoint.setPetId(PetTestDataGenerator.generateNonExistingPetId())
+                .sendRequest()
+                .assertStatusCode(HttpStatus.SC_NOT_FOUND);
     }
 
 
@@ -54,15 +49,11 @@ public class DeletePetTests extends SuiteTestBase {
     private Pet createPetToDelete() {
 
         Pet pet = PetTestDataGenerator.generatePet();
+        CreatePetEndpoint createPetEndpoint = new CreatePetEndpoint();
 
-        given()
-                .spec(RequestConfigurationBuilder.getDefaultRequestSpecification())
-                .body(pet)
-                .when()
-                .post("pet")
-                .then()
-                .statusCode(200);
-
-        return pet;
+        return createPetEndpoint.setPet(pet)
+                .sendRequest()
+                .assertRequestSuccess()
+                .getResponseModel();
     }
 }

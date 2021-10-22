@@ -4,6 +4,7 @@ import com.tommwrobel.restassured.main.pojo.ApiResponse;
 import com.tommwrobel.restassured.main.pojo.Pet;
 import com.tommwrobel.restassured.main.request.specification.RequestConfigurationBuilder;
 import com.tommwrobel.restassured.main.rop.pet.CreatePetEndpoint;
+import com.tommwrobel.restassured.main.rop.pet.DeletePetEndpoint;
 import com.tommwrobel.restassured.main.test.data.PetTestDataGenerator;
 import com.tommwrobel.restassured.tests.testbase.SuiteTestBase;
 import org.apache.http.HttpStatus;
@@ -39,13 +40,13 @@ public class CreatePetTests extends SuiteTestBase {
 
     @AfterTest
     public void cleanUpAfterTest() {
-        ApiResponse actualApiResponse = given()
-                .spec(RequestConfigurationBuilder.getDefaultRequestSpecification())
-            .when()
-                .delete("pet/{petId}", actualPet.getId())
-            .then()
-                .statusCode(HttpStatus.SC_OK)
-                .extract().as(ApiResponse.class);
+
+        DeletePetEndpoint deletePetEndpoint = new DeletePetEndpoint();
+
+        ApiResponse actualApiResponse = deletePetEndpoint.setPetId(actualPet.getId())
+                .sendRequest()
+                .assertRequestSuccess()
+                .getResponseModel();
 
         ApiResponse expectedApiResponse = ApiResponse.builder()
                 .code(HttpStatus.SC_OK)
