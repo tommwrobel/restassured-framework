@@ -3,6 +3,8 @@ package com.tommwrobel.restassured.tests.testbase;
 import com.tommwrobel.restassured.main.pojo.User;
 import com.tommwrobel.restassured.main.properties.EnvironmentConfig;
 import com.tommwrobel.restassured.main.request.specification.RequestConfigurationBuilder;
+import com.tommwrobel.restassured.main.rop.user.LoginUserEndpoint;
+import com.tommwrobel.restassured.main.rop.user.LogoutUserEndpoint;
 import io.restassured.RestAssured;
 import io.restassured.filter.log.RequestLoggingFilter;
 import io.restassured.filter.log.ResponseLoggingFilter;
@@ -26,20 +28,16 @@ public class SuiteTestBase {
 
     protected void loginUser(User user) {
 
-        given()
-            .spec(RequestConfigurationBuilder.getDefaultRequestSpecification())
-            .param("username", user.getUsername())
-            .param("password", user.getPassword())
-        .when()
-            .get("user/login")
-        .then()
-            .statusCode(HttpStatus.SC_OK);
+        new LoginUserEndpoint().setUsername(user.getUsername())
+                .setPassword(user.getPassword())
+                .sendRequest()
+                .assertRequestSuccess();
     }
 
-    protected void logoutUser(User user) {
-        given()
-            .spec(RequestConfigurationBuilder.getDefaultRequestSpecification())
-        .when()
-            .get("user/logout");
+    protected void logoutUser() {
+
+        new LogoutUserEndpoint()
+                .sendRequest()
+                .assertRequestSuccess();
     }
 }

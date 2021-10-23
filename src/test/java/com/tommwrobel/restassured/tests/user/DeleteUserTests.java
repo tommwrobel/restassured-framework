@@ -4,6 +4,7 @@ import com.tommwrobel.restassured.main.pojo.ApiResponse;
 import com.tommwrobel.restassured.main.pojo.User;
 import com.tommwrobel.restassured.main.rop.user.CreateUserEndpoint;
 import com.tommwrobel.restassured.main.rop.user.DeleteUserEndpoint;
+import com.tommwrobel.restassured.main.rop.user.LogoutUserEndpoint;
 import com.tommwrobel.restassured.main.test.data.UserTestDataGenerator;
 import com.tommwrobel.restassured.tests.testbase.SuiteTestBase;
 import org.apache.http.HttpStatus;
@@ -17,14 +18,14 @@ public class DeleteUserTests extends SuiteTestBase {
     User user;
 
     @BeforeMethod
-    public void createAndLoginUser() {
+    public void createUserAndLogin() {
         user = createUserToDelete();
         loginUser(user);
     }
 
     @AfterMethod
-    public void logoutUser() {
-        logoutUser(user);
+    public void logout() {
+        logoutUser();
     }
 
     @Test
