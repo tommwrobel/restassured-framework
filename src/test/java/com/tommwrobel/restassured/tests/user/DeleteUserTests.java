@@ -2,7 +2,8 @@ package com.tommwrobel.restassured.tests.user;
 
 import com.tommwrobel.restassured.main.pojo.ApiResponse;
 import com.tommwrobel.restassured.main.pojo.User;
-import com.tommwrobel.restassured.main.request.specification.RequestConfigurationBuilder;
+import com.tommwrobel.restassured.main.rop.user.CreateUserEndpoint;
+import com.tommwrobel.restassured.main.rop.user.DeleteUserEndpoint;
 import com.tommwrobel.restassured.main.test.data.UserTestDataGenerator;
 import com.tommwrobel.restassured.tests.testbase.SuiteTestBase;
 import org.apache.http.HttpStatus;
@@ -10,8 +11,6 @@ import org.assertj.core.api.Assertions;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-
-import static io.restassured.RestAssured.given;
 
 public class DeleteUserTests extends SuiteTestBase {
 
@@ -31,13 +30,12 @@ public class DeleteUserTests extends SuiteTestBase {
     @Test
     public void givenExistingUserUsernameWhenDeleteUserThenUserIsDeleted() {
 
-        ApiResponse actualApiResponse = given()
-                .spec(RequestConfigurationBuilder.getDefaultRequestSpecification())
-            .when()
-                .delete("user/{username}", user.getUsername())
-            .then()
-                .statusCode(HttpStatus.SC_OK)
-                .extract().as(ApiResponse.class);
+        DeleteUserEndpoint deleteUserEndpoint = new DeleteUserEndpoint();
+
+        ApiResponse actualApiResponse = deleteUserEndpoint.setUserName(user.getUsername())
+                .sendRequest()
+                .assertRequestSuccess()
+                .getResponseModel();
 
         ApiResponse expectedApiResponse = ApiResponse.builder()
                 .code(HttpStatus.SC_OK)
@@ -54,25 +52,21 @@ public class DeleteUserTests extends SuiteTestBase {
     @Test
     public void  givenNonExistingUserWhenDeletingUserThenUserNotFoundTest() {
 
-        given()
-                .spec(RequestConfigurationBuilder.getDefaultRequestSpecification())
-            .when()
-                .delete("user/{username}", UserTestDataGenerator.generateNonExistingUsername())
-            .then()
-                .statusCode(HttpStatus.SC_NOT_FOUND);
+        DeleteUserEndpoint deleteUserEndpoint = new DeleteUserEndpoint();
+
+        deleteUserEndpoint.setUserName(UserTestDataGenerator.generateNonExistingUsername())
+                .sendRequest()
+                .assertStatusCode(HttpStatus.SC_NOT_FOUND);
     }
 
     private User createUserToDelete() {
 
+        CreateUserEndpoint createUserEndpoint = new CreateUserEndpoint();
         User user = UserTestDataGenerator.generateUser();
 
-        given()
-                .spec(RequestConfigurationBuilder.getDefaultRequestSpecification())
-                .body(user)
-            .when()
-                .post("user")
-            .then()
-                .statusCode(200);
+        createUserEndpoint.setUser(user)
+                .sendRequest()
+                .assertRequestSuccess();
 
         return user;
     }

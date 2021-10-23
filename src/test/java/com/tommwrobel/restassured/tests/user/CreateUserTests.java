@@ -3,6 +3,7 @@ package com.tommwrobel.restassured.tests.user;
 import com.tommwrobel.restassured.main.pojo.ApiResponse;
 import com.tommwrobel.restassured.main.pojo.User;
 import com.tommwrobel.restassured.main.request.specification.RequestConfigurationBuilder;
+import com.tommwrobel.restassured.main.rop.user.CreateUserEndpoint;
 import com.tommwrobel.restassured.main.test.data.UserTestDataGenerator;
 import com.tommwrobel.restassured.tests.testbase.SuiteTestBase;
 import org.apache.http.HttpStatus;
@@ -20,20 +21,17 @@ public class CreateUserTests extends SuiteTestBase {
     public void givenUserWhenPostUserThenUserIsCreatedTest() {
 
         user = UserTestDataGenerator.generateUser();
+        CreateUserEndpoint createUserEndpoint = new CreateUserEndpoint();
 
-        ApiResponse actualApiResponse = given()
-            .contentType("application/json")
-            .body(user)
-        .when()
-            .post("user")
-        .then()
-            .statusCode(200)
-            .extract().as(ApiResponse.class);
+        ApiResponse actualApiResponse = createUserEndpoint.setUser(user)
+                .sendRequest()
+                .assertRequestSuccess()
+                .getResponseModel();
 
         ApiResponse expectedApiResponse = ApiResponse.builder()
                 .code(HttpStatus.SC_OK)
-                .type("unknown")
                 .message(user.getId().toString())
+                .type("unknown")
                 .build();
 
         Assertions.assertThat(actualApiResponse)

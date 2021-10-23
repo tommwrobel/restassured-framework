@@ -2,7 +2,6 @@ package com.tommwrobel.restassured.tests.pet;
 
 import com.tommwrobel.restassured.main.pojo.ApiResponse;
 import com.tommwrobel.restassured.main.pojo.Pet;
-import com.tommwrobel.restassured.main.request.specification.RequestConfigurationBuilder;
 import com.tommwrobel.restassured.main.rop.pet.CreatePetEndpoint;
 import com.tommwrobel.restassured.main.rop.pet.DeletePetEndpoint;
 import com.tommwrobel.restassured.main.test.data.PetTestDataGenerator;

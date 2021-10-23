@@ -1,4 +1,4 @@
-package com.tommwrobel.restassured.main.rop.pet;
+package com.tommwrobel.restassured.main.rop.user;
 
 import com.tommwrobel.restassured.main.pojo.ApiResponse;
 import com.tommwrobel.restassured.main.request.specification.RequestConfigurationBuilder;
@@ -9,12 +9,12 @@ import java.lang.reflect.Type;
 
 import static io.restassured.RestAssured.given;
 
-public class DeletePetEndpoint extends BaseEndpoint<com.tommwrobel.restassured.main.rop.pet.DeletePetEndpoint, ApiResponse> {
+public class DeleteUserEndpoint extends BaseEndpoint<DeleteUserEndpoint, ApiResponse> {
 
-    private int petId;
+    private String userName;
 
-    public com.tommwrobel.restassured.main.rop.pet.DeletePetEndpoint setPetId(int petId) {
-        this.petId = petId;
+    public DeleteUserEndpoint setUserName(String userName) {
+        this.userName = userName;
         return this;
     }
 
@@ -24,12 +24,12 @@ public class DeletePetEndpoint extends BaseEndpoint<com.tommwrobel.restassured.m
     }
 
     @Override
-    public com.tommwrobel.restassured.main.rop.pet.DeletePetEndpoint sendRequest() {
+    public DeleteUserEndpoint sendRequest() {
         response = given()
                 .spec(RequestConfigurationBuilder.getDefaultRequestSpecification())
-                .pathParam("petId", String.valueOf(petId))
-        .when()
-                .delete("pet/{petId}");
+                .pathParam("userName", userName)
+            .when()
+                .delete("user/{userName}");
 
         return this;
     }
