@@ -11,8 +11,6 @@ import org.assertj.core.api.Assertions;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.Test;
 
-import static io.restassured.RestAssured.given;
-
 public class CreatePetTests extends SuiteTestBase {
 
     private Pet actualPet;

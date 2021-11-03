@@ -2,17 +2,13 @@ package com.tommwrobel.restassured.tests.testbase;
 
 import com.tommwrobel.restassured.main.pojo.User;
 import com.tommwrobel.restassured.main.properties.EnvironmentConfig;
-import com.tommwrobel.restassured.main.request.specification.RequestConfigurationBuilder;
 import com.tommwrobel.restassured.main.rop.user.LoginUserEndpoint;
 import com.tommwrobel.restassured.main.rop.user.LogoutUserEndpoint;
 import io.restassured.RestAssured;
 import io.restassured.filter.log.RequestLoggingFilter;
 import io.restassured.filter.log.ResponseLoggingFilter;
 import org.aeonbits.owner.ConfigFactory;
-import org.apache.http.HttpStatus;
 import org.testng.annotations.BeforeSuite;
-
-import static io.restassured.RestAssured.given;
 
 public class SuiteTestBase {
 
